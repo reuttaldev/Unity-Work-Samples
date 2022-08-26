@@ -1,0 +1,5 @@
+This is an Android app I solo developed using Unity. 
+It has the purpose of displaying educational information on slides, to teach children.
+It includes using the Android camera, a calendar to add events and reminders, 
+A drawing canvas with text and stickers to practice the information taught, particle effects, and more.
+This was the very first working version of the app.

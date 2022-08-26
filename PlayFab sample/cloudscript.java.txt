@@ -1,0 +1,63 @@
+handlers.AddSoftCurrency = function (args, context)
+{
+    var maxAmountMP= 500;
+    var characterId = args.characterId;
+    var amount = args.amount;
+    var message = "Adding " + amount + "soft currency MG";
+    if(characterId == null)
+        message = "There is an Error with characterId variable";
+    // preventing cheating by adding large amounts of MP- check if the score is within a reasonable range
+    else if(amount <=maxAmountMP)
+        server.AddCharacterVirtualCurrency({PlayFabId: currentPlayerId, CharacterId: characterId, VirtualCurrency: "MP", Amount:amount});
+    else
+        message = "Someone is trying to cheat- amount too high";
+    return {messageValue: message};
+};
+handlers.SubtractSoftCurrency = function (args, context)
+{
+    var maxAmountMP= 500;
+    var characterId = args.characterId;
+    var amount = args.amount;
+    var message = "Subtracting " + amount + "soft currency MG";
+    if(characterId == null)
+        message = "There is an Error with characterId variable";
+    //preventing cheating by adding large amounts of MP - check if the score is within a reasonable range
+    else if(amount <=maxAmountMP)
+        server.SubtractCharacterVirtualCurrency({PlayFabId: currentPlayerId, CharacterId: characterId, VirtualCurrency: "MP", Amount:amount});
+    else
+        message = "Someone is trying to cheat- amount too high";
+    return {messageValue: message};
+};
+handlers.UpdateReadOnlyData = function (args, context)
+{
+    var message = "Updating Read-only data";
+    var data = args.newData;
+    if(data == null)
+        message = "error with arg variavles, data = null"
+    else
+        var updateUserDataResult = server.UpdateUserReadOnlyData({ PlayFabId: currentPlayerId, Data:data});
+    return {messageValue: message};
+};
+// this method creates a character whitin the user\ player, so we can have a different currency amount to each character in the game 
+handlers.AddCharacterToUser = function (args, context)
+{
+    var newCharName =  args.characterName;
+    if(newCharName == null || newCharName == "")
+    characterName = "Player";
+    var request = {
+        PlayFabId: currentPlayerId,
+        CharacterName: newCharName,
+        CharacterType: "Character"
+    };
+    return server.GrantCharacterToUser(request);
+};
+// this method will retun Character id
+handlers.GetUsersCharacters = function (args, context) {
+{
+    var request = {
+        PlayFabId: currentPlayerId,
+    };
+    
+    var getUsersCharacters = server.GetAllUsersCharacters(request);
+    return getUsersCharacters.Characters; 
+};}
